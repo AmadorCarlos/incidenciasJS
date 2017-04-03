@@ -9,7 +9,7 @@
         </div>
         <div class="form-group" v-if="selectedDpto!='nulo'">
             <label for="departamento">Municipio</label>
-            <select name="departamento_id" class="form-control">
+            <select name="muni_id" class="form-control">
                 <option value="nulo" disabled selected>Seleccione el Departamento Asignado</option>
                 <option v-for="muni in dptos[Number(selectedDpto)-1].municipios" :value="muni.id">{{muni.nombre}}</option>
             </select>

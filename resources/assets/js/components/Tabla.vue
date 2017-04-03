@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -20,7 +20,14 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            console.log('Component Tabla')
+        },
+        props:{
+            data:{
+                type:Array,
+                default(){return []},
+                required:false
+            }
         }
     }
 </script>

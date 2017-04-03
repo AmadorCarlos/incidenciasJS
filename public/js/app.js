@@ -12288,7 +12288,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
-        console.log('Component mounted.');
+        console.log('Component Tabla');
+    },
+
+    props: {
+        data: {
+            type: Array,
+            default: function _default() {
+                return [];
+            },
+
+            required: false
+        }
     }
 });
 
@@ -32077,9 +32088,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _vm._m(0)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('table', {
+  return _c('div', {}, [_c('table', {
     staticClass: "table table-hover"
   }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Incidencia")]), _vm._v(" "), _c('th', [_vm._v("Tipo")]), _vm._v(" "), _c('th', [_vm._v("Departamento")]), _vm._v(" "), _c('th', [_vm._v("Municipio")]), _vm._v(" "), _c('th', [_vm._v("Descripción")])])]), _vm._v(" "), _c('tbody', [_c('tr', {
     attrs: {
@@ -32150,7 +32159,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Municipio")]), _vm._v(" "), _c('select', {
     staticClass: "form-control",
     attrs: {
-      "name": "departamento_id"
+      "name": "muni_id"
     }
   }, [_c('option', {
     attrs: {

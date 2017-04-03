@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0">
+        <div class="col-md-6 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @if(Auth::user()->role=="Digitador")
@@ -18,10 +18,11 @@
                 </div>
 
                 <div class="panel-body">
-                    <tabla></tabla>
                     @if(Auth::user()->role=="Digitador" || Auth::user()->role=='Mon/Dig' || Auth::user()->role=="SU")
-                        {{Auth::user()->role}} {{Auth::user()->alcance}}
-                        <div class="form-group">
+                        {{-- {{Auth::user()->role}} {{Auth::user()->alcance}} --}}
+                        <form class="form-group" method="POST" action="/home">
+                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                            {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="incidencia_name">Incidencia</label>
                                 <input id="incidencia_name" class="form-control" name="incidencia" placeholder="Nombre la Incidencia">
@@ -48,10 +49,20 @@
                             </div>
                             <hr>
                             <div class="form-group text-right">
-                                <button class="btn btn-success">Enviar</button>
+                                <button class="btn btn-success" type="submit">Enviar</button>
                             </div>
-                        </div>
+                        </form>
                     @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Incidencias Guardadas.
+                </div>
+                <div class="panel-body">
+                    <tabla></tabla>
                 </div>
             </div>
         </div>
