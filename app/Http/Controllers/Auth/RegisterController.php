@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace incJS\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use incJS\User;
+use incJS\Departamento;
+use incJS\Municipio;
+use incJS\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 

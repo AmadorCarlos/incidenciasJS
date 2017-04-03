@@ -14,6 +14,8 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('dptosMunis',require('./components/Dptos.vue'));
+Vue.component('dptosMunisDigi',require('./components/DptosDigi.vue'));
 
 const app = new Vue({
     el: '#app'

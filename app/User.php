@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace incJS;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','muni_id','role','alcance'
     ];
 
     /**
@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function Incidencias()
+    {
+        return $this->hasMany('incJS\Incidencia','user_id');
+    }
+
 }
