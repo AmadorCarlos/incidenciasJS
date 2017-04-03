@@ -18,6 +18,7 @@
                 </div>
 
                 <div class="panel-body">
+                    <tabla></tabla>
                     @if(Auth::user()->role=="Digitador" || Auth::user()->role=='Mon/Dig' || Auth::user()->role=="SU")
                         {{Auth::user()->role}} {{Auth::user()->alcance}}
                         <div class="form-group">
@@ -26,7 +27,7 @@
                                 <input id="incidencia_name" class="form-control" name="incidencia" placeholder="Nombre la Incidencia">
                             </div>
                             
-                            <dptos-munis-digi :selected-dpto="{{Auth::user()->departamento_id}}" dpto-disable="true"></dptos-munis-digi>
+                            <dptos-munis-digi :selected-dpto="{{Auth::user()->departamento_id}}" :dpto-disable="true"></dptos-munis-digi>
                             
                             <div class="form-group">
                                 <label for="incidencia_descripcion">Descripción</label>
