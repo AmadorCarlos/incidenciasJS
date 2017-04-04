@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <div class="panel panel-default">
@@ -20,11 +20,7 @@
                 <div class="panel-body">
                     @if(Auth::user()->role=="Digitador" || Auth::user()->role=='Mon/Dig' || Auth::user()->role=="SU")
                         {{-- {{Auth::user()->role}} {{Auth::user()->alcance}} --}}
-                        <script type="text/javascript">
-                            $(document).ready(function(){
-                                $('#mainForm').parsley();
-                            });
-                        </script>
+                        
                         <form id="mainForm" class="form-group" method="POST" action="/home">
                             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                             {{ csrf_field() }}
@@ -72,7 +68,7 @@
                 <div class="panel-heading">
                     Incidencias Reportadas
                 </div>
-                <div class="panel-body">
+                <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
                     <tabla></tabla>
                 </div>
             </div>
