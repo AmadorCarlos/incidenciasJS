@@ -29,10 +29,11 @@ class HomeController extends Controller
 
     public function saveInc(Request $request)
     {
+        // dd($request);
         $inc = new Incidencia();
         $inc->incidencia=$request->incidencia;
         $inc->muni_id=$request->muni_id;
-        //$inc->departamento_id=$request->departamento_id;
+        $inc->departamento_id=$request->departamento_id;
         $inc->descripcion=$request->descripcion;
         $inc->user_id=$request->user_id;
         $inc->tipo=$request->tipo;

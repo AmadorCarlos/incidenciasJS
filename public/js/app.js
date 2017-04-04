@@ -12206,6 +12206,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -12285,6 +12286,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -12299,6 +12311,87 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
 
             required: false
+        }
+    },
+    methods: {
+        getName: function getName(item, idx) {
+            if (item == 'departamento') {
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = Laravel.dptos[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var depa = _step.value;
+
+                        if (depa.id == idx) {
+                            return depa.nombre;
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            } else {
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = Laravel.dptos[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var _depa = _step2.value;
+                        var _iteratorNormalCompletion3 = true;
+                        var _didIteratorError3 = false;
+                        var _iteratorError3 = undefined;
+
+                        try {
+                            for (var _iterator3 = _depa.municipios[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                                var muni = _step3.value;
+
+                                if (muni.id == idx) {
+                                    return muni.nombre;
+                                }
+                            }
+                        } catch (err) {
+                            _didIteratorError3 = true;
+                            _iteratorError3 = err;
+                        } finally {
+                            try {
+                                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                    _iterator3.return();
+                                }
+                            } finally {
+                                if (_didIteratorError3) {
+                                    throw _iteratorError3;
+                                }
+                            }
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            }
         }
     }
 });
@@ -32086,15 +32179,17 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {}, [_c('table', {
-    staticClass: "table table-hover"
-  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("Incidencia")]), _vm._v(" "), _c('th', [_vm._v("Tipo")]), _vm._v(" "), _c('th', [_vm._v("Departamento")]), _vm._v(" "), _c('th', [_vm._v("Municipio")]), _vm._v(" "), _c('th', [_vm._v("Descripción")])])]), _vm._v(" "), _c('tbody', [_c('tr', {
+    staticClass: "table table-hover table-striped"
+  }, [_vm._m(0), _vm._v(" "), (!_vm.data.length) ? _c('tbody', [_vm._m(1)]) : _vm._e(), _vm._v(" "), (_vm.data.length) ? _c('tbody', [_c('tr', [_c('td', [_vm._v(_vm._s(_vm.data.incidencia))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.data.tipo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('departamento', _vm.data.departamento_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('municipio', _vm.data.muni_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.data.descripcion))])])]) : _vm._e()])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("Incidencia")]), _vm._v(" "), _c('th', [_vm._v("Tipo")]), _vm._v(" "), _c('th', [_vm._v("Departamento")]), _vm._v(" "), _c('th', [_vm._v("Municipio")]), _vm._v(" "), _c('th', [_vm._v("Descripción")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('td', {
     attrs: {
       "colspan": "5"
     }
-  }, [_vm._v("No hay incidencias")])])])])
+  }, [_vm._v("No hay Inicidencias")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -32124,7 +32219,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "name": "departamento_id",
+      "required": "",
+      "name": _vm.dptoDisable ? 'ninguno' : _vm.departamento_id,
       "disabled": _vm.dptoDisable
     },
     on: {
@@ -32140,9 +32236,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('option', {
     attrs: {
-      "value": "nulo",
-      "disabled": "",
-      "selected": ""
+      "value": "",
+      "disabled": ""
     }
   }, [_vm._v("Seleccione el Departamento Asignado")]), _vm._v(" "), _vm._l((_vm.dptos), function(dpto) {
     return _c('option', {
@@ -32150,7 +32245,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": dpto.id
       }
     }, [_vm._v(_vm._s(dpto.nombre))])
-  })], 2)]), _vm._v(" "), (_vm.selectedDpto != 'nulo') ? _c('div', {
+  })], 2), _vm._v(" "), (_vm.dptoDisable) ? _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "departamento_id"
+    },
+    domProps: {
+      "value": _vm.selectedDpto
+    }
+  }) : _vm._e()]), _vm._v(" "), (_vm.selectedDpto != 'nulo') ? _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     attrs: {
@@ -32159,11 +32262,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Municipio")]), _vm._v(" "), _c('select', {
     staticClass: "form-control",
     attrs: {
+      "required": "",
       "name": "muni_id"
     }
   }, [_c('option', {
     attrs: {
-      "value": "nulo",
+      "value": "",
       "disabled": "",
       "selected": ""
     }

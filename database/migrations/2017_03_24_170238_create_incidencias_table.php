@@ -17,6 +17,7 @@ class CreateIncidenciasTable extends Migration
             $table->increments('id');
             $table->string('incidencia');
             $table->integer('muni_id');
+            $table->integer('departamento_id');
             $table->longText('descripcion');
             $table->integer('user_id');
             $table->enum('tipo',['Mayor','Menor','Sin']);

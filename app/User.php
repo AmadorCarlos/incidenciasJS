@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function Incidencias()
+    public function incidencias()
     {
         return $this->hasMany('incJS\Incidencia','user_id');
     }

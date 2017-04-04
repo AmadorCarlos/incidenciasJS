@@ -2,15 +2,16 @@
     <div>
         <div class="form-group">
             <label for="departamento">Departamento</label>
-            <select name="departamento_id" class="form-control" v-model='selectedDpto' :disabled="dptoDisable">
-                <option value="nulo" disabled selected>Seleccione el Departamento Asignado</option>
+            <select required :name="dptoDisable ? 'ninguno' : departamento_id" class="form-control" v-model='selectedDpto' :disabled="dptoDisable">
+                <option value="" disabled>Seleccione el Departamento Asignado</option>
                 <option v-for="dpto in dptos" :value="dpto.id">{{dpto.nombre}}</option>
             </select>
+            <input type="hidden" name="departamento_id" v-if="dptoDisable" :value="selectedDpto">
         </div>
         <div class="form-group" v-if="selectedDpto!='nulo'">
             <label for="departamento">Municipio</label>
-            <select name="muni_id" class="form-control">
-                <option value="nulo" disabled selected>Seleccione el Departamento Asignado</option>
+            <select required name="muni_id" class="form-control">
+                <option value="" disabled selected>Seleccione el Departamento Asignado</option>
                 <option v-for="muni in dptos[Number(selectedDpto)-1].municipios" :value="muni.id">{{muni.nombre}}</option>
             </select>
         </div>

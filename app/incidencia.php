@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class incidencia extends Model
 {
 	protected $fillable = [
-        'inicidencia','muni_id','descripcion','user_id','tipo'
+        'inicidencia','muni_id','departamento_id','descripcion','user_id','tipo'
     ];
 
     public function municipio()
