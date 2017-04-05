@@ -4,7 +4,7 @@ namespace incJS;
 
 use Illuminate\Database\Eloquent\Model;
 
-class incidencia extends Model
+class Incidencia extends Model
 {
 	protected $fillable = [
         'inicidencia','muni_id','departamento_id','descripcion','user_id','tipo'
