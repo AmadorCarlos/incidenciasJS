@@ -17,6 +17,7 @@ class CreateMunicipiosTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->integer('departamento_id');
+            $table->longText('polygon')->nullable();
             $table->timestamps();
         });
     }

@@ -59,6 +59,8 @@
                                 <button class="btn btn-success" type="submit">Enviar</button>
                             </div>
                         </form>
+                    @elseif(Auth::user()->role=="Monitor" || Auth::user()->role=='Mon/Dig' || Auth::user()->role=="SU")
+                        <mapa></mapa>
                     @endif
                 </div>
             </div>

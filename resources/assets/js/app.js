@@ -17,7 +17,8 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('dptosMunis',require('./components/Dptos.vue'));
 Vue.component('dptosMunisDigi',require('./components/DptosDigi.vue'));
 Vue.component('tabla',require('./components/Tabla.vue'));
+Vue.component('mapa',require('./components/mapa.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

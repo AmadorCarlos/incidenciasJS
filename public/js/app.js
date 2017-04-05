@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 51);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11275,7 +11275,7 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(35);
+__webpack_require__(36);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -11283,10 +11283,11 @@ __webpack_require__(35);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(40));
-Vue.component('dptosMunis', __webpack_require__(38));
-Vue.component('dptosMunisDigi', __webpack_require__(39));
-Vue.component('tabla', __webpack_require__(41));
+Vue.component('example', __webpack_require__(41));
+Vue.component('dptosMunis', __webpack_require__(39));
+Vue.component('dptosMunisDigi', __webpack_require__(40));
+Vue.component('tabla', __webpack_require__(42));
+Vue.component('mapa', __webpack_require__(43));
 
 var app = new Vue({
   el: '#app'
@@ -12309,7 +12310,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         data: {
             type: Array,
             default: function _default() {
-                return [];
+                return [{
+                    incidencia: "prueba01",
+                    tipo: "Mayor",
+                    departamento_id: 12,
+                    muni_id: 97,
+                    descripcion: "Esto solo es una prueba"
+                }];
             },
 
             required: false
@@ -12400,10 +12407,114 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	mounted: function mounted() {
+		console.log('mapa cargado');
+		this.setScriptTag();
+		this.initMap();
+	},
+	data: function data() {
+		return {
+			apiKey: "AIzaSyBDzalkc2GCsKQWOx9xhMCwvxYPiTtjO7c",
+			apiKey2: "AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA",
+			mapa: null
+		};
+	},
+
+	methods: {
+		setScriptTag: function setScriptTag() {
+			var vm = this;
+			var scriptMap = document.createElement('script');
+			scriptMap.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=' + vm.apiKey);
+			scriptMap.setAttribute("async", "");
+			scriptMap.setAttribute("defer", "");
+			// scriptMap.setAttribute('id','googleApiScript')
+			document.body.appendChild(scriptMap);
+		},
+		initMap: function initMap() {
+			var vm = this;
+			if (typeof google != "undefined") {
+				vm.mapa = new google.maps.Map(document.getElementById('mapa'), {
+					center: { lat: 12.1362, lng: -86.2516 },
+					zoom: 9,
+					mapTypeControl: false,
+					streetViewControl: false
+
+				});
+				console.log(vm.mapa.getBounds());
+			} else {
+				setTimeout(function () {
+					vm.initMap();
+					vm.setPoligon();
+				}, 200);
+			}
+		},
+		getPolygon: function getPolygon() {
+			var pase1 = Laravel.dptos[11].municipios[2].polygon.split(' ');
+			var pase2 = [];
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = pase1[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var x = _step.value;
+
+					var latlon = x.split(',');
+					pase2.push({
+						lng: Number(latlon[0]),
+						lat: Number(latlon[1])
+					});
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return pase2;
+		},
+		setPoligon: function setPoligon() {
+			var vm = this;
+			var Managua = new google.maps.Polygon({
+				paths: vm.getPolygon(),
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#FF0000',
+				fillOpacity: 0.35
+			});
+			Managua.setMap(vm.mapa);
+		}
+	}
+});
+
+/***/ }),
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(37);
+window._ = __webpack_require__(38);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -12413,7 +12524,7 @@ window._ = __webpack_require__(37);
 
 window.$ = window.jQuery = __webpack_require__(3);
 
-__webpack_require__(36);
+__webpack_require__(37);
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -12421,7 +12532,7 @@ __webpack_require__(36);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(46);
+window.Vue = __webpack_require__(49);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -12452,7 +12563,7 @@ window.axios.defaults.headers.common = {
 // });
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
@@ -14836,7 +14947,7 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31925,17 +32036,17 @@ if (typeof jQuery === 'undefined') {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(47)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(50)(module)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(31),
   /* template */
-  __webpack_require__(42),
+  __webpack_require__(44),
   /* scopeId */
   null,
   /* cssModules */
@@ -31962,14 +32073,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(32),
   /* template */
-  __webpack_require__(45),
+  __webpack_require__(48),
   /* scopeId */
   null,
   /* cssModules */
@@ -31996,14 +32107,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(33),
   /* template */
-  __webpack_require__(43),
+  __webpack_require__(45),
   /* scopeId */
   null,
   /* cssModules */
@@ -32030,14 +32141,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(34),
   /* template */
-  __webpack_require__(44),
+  __webpack_require__(47),
   /* scopeId */
   null,
   /* cssModules */
@@ -32064,7 +32175,41 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 42 */
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(35),
+  /* template */
+  __webpack_require__(46),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/vagrant/Code/incidenciasJS/resources/assets/js/components/mapa.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] mapa.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-58082c60", Component.options)
+  } else {
+    hotAPI.reload("data-v-58082c60", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32148,7 +32293,7 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32177,13 +32322,43 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    attrs: {
+      "id": "mapaContainer"
+    }
+  }, [_c('div', {
+    staticStyle: {
+      "height": "500px"
+    },
+    attrs: {
+      "id": "mapa"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-58082c60", module.exports)
+  }
+}
+
+/***/ }),
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {}, [_c('table', {
     staticClass: "table table-hover table-striped"
-  }, [_vm._m(0), _vm._v(" "), (!_vm.data.length) ? _c('tbody', [_vm._m(1)]) : _vm._e(), _vm._v(" "), (_vm.data.length) ? _c('tbody', [_c('tr', [_c('td', [_vm._v(_vm._s(_vm.data.incidencia))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.data.tipo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('departamento', _vm.data.departamento_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('municipio', _vm.data.muni_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.data.descripcion))])])]) : _vm._e()])])
+  }, [_vm._m(0), _vm._v(" "), (!_vm.data.length) ? _c('tbody', [_vm._m(1)]) : _vm._e(), _vm._v(" "), (_vm.data.length > 0) ? _c('tbody', _vm._l((_vm.data), function(row) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(row.incidencia))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.tipo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('departamento', row.departamento_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('municipio', row.muni_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.descripcion))])])
+  })) : _vm._e()])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('tr', [_c('th', [_vm._v("Incidencia")]), _vm._v(" "), _c('th', [_vm._v("Tipo")]), _vm._v(" "), _c('th', [_vm._v("Departamento")]), _vm._v(" "), _c('th', [_vm._v("Municipio")]), _vm._v(" "), _c('th', [_vm._v("Descripción")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32202,7 +32377,7 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32290,7 +32465,7 @@ if (false) {
 }
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41618,7 +41793,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(10)))
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -41646,7 +41821,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);

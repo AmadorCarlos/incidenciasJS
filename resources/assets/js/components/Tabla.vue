@@ -15,13 +15,13 @@
                     <td colspan="5" class="">No hay Inicidencias</td>
                 </tr>
             </tbody>
-            <tbody v-if='data.length'>
-                <tr>
-                    <td>{{data.incidencia}}</td>
-                    <td>{{data.tipo}}</td>
-                    <td>{{getName('departamento',data.departamento_id)}}</td>
-                    <td>{{getName('municipio',data.muni_id)}}</td>
-                    <td>{{data.descripcion}}</td>
+            <tbody v-if='data.length>0'>
+                <tr v-for="row in data">
+                    <td>{{row.incidencia}}</td>
+                    <td>{{row.tipo}}</td>
+                    <td>{{getName('departamento',row.departamento_id)}}</td>
+                    <td>{{getName('municipio',row.muni_id)}}</td>
+                    <td>{{row.descripcion}}</td>
                 </tr>
             </tbody>
         </table>
@@ -36,7 +36,13 @@
         props:{
             data:{
                 type:Array,
-                default(){return []},
+                default(){return [{
+                    incidencia:"prueba01",
+                    tipo:"Mayor",
+                    departamento_id:12,
+                    muni_id:97,
+                    descripcion:"Esto solo es una prueba"
+                }]},
                 required:false
             }
         },
