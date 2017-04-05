@@ -12188,6 +12188,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 //
 //
 //
@@ -12212,7 +12214,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         console.log('Component mounted.');
-        $('#mainForm').parsley();
+    },
+    ready: function ready() {
+        while ((typeof parsley === 'undefined' ? 'undefined' : _typeof(parsley)) != "object") {
+            setTimeout(function () {
+                $('#mainForm').parsley();
+            }, 200);
+        }
     },
 
     props: {
@@ -12270,6 +12278,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
 //
 //
 //
@@ -12424,6 +12434,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.setScriptTag();
 		this.initMap();
 	},
+	ready: function ready() {},
 	data: function data() {
 		return {
 			apiKey: "AIzaSyBDzalkc2GCsKQWOx9xhMCwvxYPiTtjO7c",
@@ -32357,10 +32368,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {}, [_c('table', {
     staticClass: "table table-hover table-striped"
   }, [_vm._m(0), _vm._v(" "), (!_vm.data.length) ? _c('tbody', [_vm._m(1)]) : _vm._e(), _vm._v(" "), (_vm.data.length > 0) ? _c('tbody', _vm._l((_vm.data), function(row) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(row.incidencia))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.tipo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('departamento', row.departamento_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('municipio', row.muni_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.descripcion))])])
+    return _c('tr', [_c('td', [_vm._v(_vm._s(row.incidencia))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.tipo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('departamento', row.departamento_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.getName('municipio', row.muni_id)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.descripcion))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(row.created_at))])])
   })) : _vm._e()])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th', [_vm._v("Incidencia")]), _vm._v(" "), _c('th', [_vm._v("Tipo")]), _vm._v(" "), _c('th', [_vm._v("Departamento")]), _vm._v(" "), _c('th', [_vm._v("Municipio")]), _vm._v(" "), _c('th', [_vm._v("Descripción")])])])
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("Incidencia")]), _vm._v(" "), _c('th', [_vm._v("Tipo")]), _vm._v(" "), _c('th', [_vm._v("Departamento")]), _vm._v(" "), _c('th', [_vm._v("Municipio")]), _vm._v(" "), _c('th', [_vm._v("Descripción")]), _vm._v(" "), _c('th', [_vm._v("Fecha y Hora")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('td', {
     attrs: {

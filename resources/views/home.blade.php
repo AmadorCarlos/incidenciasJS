@@ -2,8 +2,20 @@
 
 @section('content')
 <div class="container-fluid">
+    <?php
+        $data=NULL;
+        if (Auth::user()->alcance=="Departamental")
+        {
+            $data= incJS\Incidencia::where('departamento_id',Auth::user()['departamento_id'])->get();
+        }
+        else
+        {
+            $data= incJS\Incidencia::where('departamento_id',Auth::user()['departamento_id'])->get();
+        }
+    ?>
+
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-5 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @if(Auth::user()->role=="Digitador")
@@ -65,13 +77,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-7 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Incidencias Reportadas
                 </div>
                 <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
-                    <tabla></tabla>
+                    
+                    <tabla :data='{{json_encode($data)}}'></tabla>
+                    
                 </div>
             </div>
         </div>

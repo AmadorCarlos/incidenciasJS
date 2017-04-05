@@ -8,6 +8,7 @@
                     <th>Departamento</th>
                     <th>Municipio</th>
                     <th>Descripción</th>
+                    <th>Fecha y Hora</th>
                 </tr>
             </thead>
             <tbody v-if="!data.length">
@@ -22,6 +23,7 @@
                     <td>{{getName('departamento',row.departamento_id)}}</td>
                     <td>{{getName('municipio',row.muni_id)}}</td>
                     <td>{{row.descripcion}}</td>
+                    <td>{{row.created_at}}</td>
                 </tr>
             </tbody>
         </table>

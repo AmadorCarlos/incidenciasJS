@@ -11,6 +11,8 @@
 			this.setScriptTag();
 			this.initMap();
 		},
+		ready(){
+		},
 		data(){
 			return {
 					apiKey:"AIzaSyBDzalkc2GCsKQWOx9xhMCwvxYPiTtjO7c",
@@ -26,7 +28,7 @@
 				scriptMap.setAttribute("async","");
 				scriptMap.setAttribute("defer","");
 				// scriptMap.setAttribute('id','googleApiScript')
-				document.body.appendChild(scriptMap);       
+				document.body.appendChild(scriptMap); 
  			},
     		initMap(){
     			let vm=this;
@@ -63,7 +65,7 @@
     		},
     		setPoligon(){
     			let vm = this;
-    			var Managua = new google.maps.Polygon({
+    			let Managua = new google.maps.Polygon({
 					    paths: vm.getPolygon(),
 					    strokeColor: '#FF0000',
 					    strokeOpacity: 0.8,
@@ -71,7 +73,7 @@
 					    fillColor: '#FF0000',
 					    fillOpacity: 0.35
 					});
-					Managua.setMap(vm.mapa);
+				Managua.setMap(vm.mapa);
     		}
     	}
 	}
