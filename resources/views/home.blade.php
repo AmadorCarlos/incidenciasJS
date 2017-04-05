@@ -3,6 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <?php
+        use incJS\Incidencia;
         $data=NULL;
         if (Auth::user()->alcance=="Departamental")
         {
