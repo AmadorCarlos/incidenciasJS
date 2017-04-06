@@ -9,8 +9,10 @@
 require('./bootstrap');
 
 var VueResource = require('vue-resource');
-
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 Vue.use(VueResource);
+Vue.use(ClientTable, {}, false);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
