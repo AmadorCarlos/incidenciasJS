@@ -38,6 +38,6 @@ class HomeController extends Controller
         $inc->user_id=$request->user_id;
         $inc->tipo=$request->tipo;
         $inc->save();
-        return view('home'); 
+        return redirect()->route('home');
     }
  }
