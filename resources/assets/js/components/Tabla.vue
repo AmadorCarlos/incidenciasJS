@@ -33,19 +33,39 @@
 <script>
     export default {
         mounted() {
+            let vm=this;
             console.log('Component Tabla')
+            if (this.reloadUri){
+                setInterval(function(){
+                    vm.reloadData();
+                },2000);
+            }
         },
         props:{
-            data:{
+            dataIn:{
                 type:Array,
-                default(){return [{
-                    incidencia:"prueba01",
-                    tipo:"Mayor",
-                    departamento_id:12,
-                    muni_id:97,
-                    descripcion:"Esto solo es una prueba"
-                }]},
+                default(){return []},
                 required:false
+            },
+            reloadUri:{
+                type:Boolean,
+                default:false,
+                required:false
+            },
+            alcance:{
+                type:String,
+                default:'',
+                required:false
+            },
+            departamento_id:{
+                type:Number,
+                default:0,
+                required:false
+            }
+        },
+        data(){
+            return {
+                data:this.dataIn
             }
         },
         methods:{
@@ -67,7 +87,16 @@
                 }
             },
             timelocal(fecha){
-                return moment.utc(fecha,'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY HH:mm:ss");
+                return moment.utc(fecha,'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY hh:mm:ss a");
+            },
+            reloadData(){
+                let vm=this;
+                vm.$http.get('/getData/'+vm.departamento_id,{csrfToken:Laravel.csrfToken}).then((response)=>{
+                    console.log(response);
+                    vm.data=response.data;
+                },(response)=>{
+                    console.log(response);
+                });
             }
 
         }

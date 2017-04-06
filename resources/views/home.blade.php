@@ -85,7 +85,7 @@
                 </div>
                 <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
                     
-                    <tabla :data='{{json_encode($data)}}'></tabla>
+                    <tabla :data-in='{{json_encode($data)}}' :reload-uri='true' :alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}"></tabla>
                     
                 </div>
             </div>
