@@ -13,7 +13,7 @@
             </thead>
             <tbody v-if="!data.length">
                 <tr>
-                    <td colspan="5" class="">No hay Inicidencias</td>
+                    <td colspan="6" class="">No hay Inicidencias</td>
                 </tr>
             </tbody>
             <tbody v-if='data.length>0'>
@@ -23,7 +23,7 @@
                     <td>{{getName('departamento',row.departamento_id)}}</td>
                     <td>{{getName('municipio',row.muni_id)}}</td>
                     <td>{{row.descripcion}}</td>
-                    <td>{{row.created_at}}</td>
+                    <td>{{timelocal(row.created_at)}}</td>
                 </tr>
             </tbody>
         </table>
@@ -65,7 +65,11 @@
                         }
                     }
                 }
+            },
+            timelocal(fecha){
+                return moment.utc(fecha,'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY HH:mm:ss");
             }
+
         }
     }
 </script>

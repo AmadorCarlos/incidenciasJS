@@ -20,6 +20,11 @@
             'dptos' => incJS\Departamento::with('municipios')->get()
         ]) !!};
     </script>
+
+    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript">
+        moment.locale("es")
+    </script>
 </head>
 <body>
     <div id="app">
