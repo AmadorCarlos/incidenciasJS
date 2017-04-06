@@ -77,6 +77,14 @@ class DptosMunis extends Seeder
                 'alcance'=>"Departamental",
             ],
             [
+                "nombre"=>'Monitoreo Nacional',
+                'email'=>"MonitoreoNacional@incidenciasjs.com",
+                'password'=>bcrypt('sputnik2017!'),
+                'departamento_id'=>0,
+                'role'=>'Monitor',
+                'alcance'=>"Nacional",
+            ],
+            [
                 "nombre"=>'Monitoreo 01',
                 'email'=>"Monitoreo@incidenciasjs.com",
                 'password'=>bcrypt('asdfasdf'),

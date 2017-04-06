@@ -555,192 +555,6 @@ module.exports = {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11000,6 +10814,192 @@ return jQuery;
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -11331,7 +11331,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 10 */
@@ -13285,7 +13285,7 @@ utils.escapeRe = function escapeRe(str) {
 
 module.exports = utils;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 12 */
@@ -13516,7 +13516,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 13 */
@@ -22855,7 +22855,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(15)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(15)))
 
 /***/ }),
 /* 15 */
@@ -23102,7 +23102,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 18 */
@@ -23904,7 +23904,7 @@ module.exports = function(module) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_tables_2__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_tables_2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_tables_2__);
 
@@ -23937,14 +23937,14 @@ Vue.component('mapa', __webpack_require__(114));
 var app = new Vue({
     el: '#app',
     data: {
+        ready: false,
         tableOptions: {
             listColumns: {
                 tipo: [{ id: "Mayor", text: 'Incidencia Mayor' }, { id: "Menor", text: 'Incidencia Menor' }, { id: "Sin", text: 'Sin Prioridad' }],
-                departamento_id: [{ "id": 1, "text": "RACN" }, { "id": 2, "text": "RACS" }, { "id": 3, "text": "Boaco" }, { "id": 4, "text": "Carazo" }, { "id": 5, "text": "Chinandega" }, { "id": 6, "text": "Chontales" }, { "id": 7, "text": 'Estel\xED' }, { "id": 8, "text": "Granada" }, { "id": 9, "text": "Jinotega" }, { "id": 10, "text": 'Le\xF3n' }, { "id": 11, "text": "Madriz" }, { "id": 12, "text": "Managua" }, { "id": 13, "text": "Masaya" }, { "id": 14, "text": "Matagalpa" }, { "id": 15, "text": "Nueva Segovia" }, { "id": 16, "text": 'R\xEDo San Juan' }, { "id": 17, "text": "Rivas" }, { "id": 18, "text": "Triangulo Minero" }, { "id": 19, "text": "Zelaya Central" }],
-                muni_id: [{ "id": 1, "text": "Bilwi" }, { "id": 2, "text": "Waslala" }, { "id": 3, "text": 'Wasp\xE1n' }, { "id": 4, "text": "Bluefields" }, { "id": 5, "text": "Corn Island" }, { "id": 6, "text": 'Desembocadura de R\xEDo Grande' }, { "id": 7, "text": "El Ayote" }, { "id": 8, "text": "El Tortuguero" }, { "id": 9, "text": "Kukra Hill" }, { "id": 10, "text": 'La Cruz de R\xEDo Grande' }, { "id": 11, "text": "Laguna de Perlas" }, { "id": 12, "text": "Paiwas" }, { "id": 13, "text": "Boaco" }, { "id": 14, "text": "Camoapa" }, { "id": 15, "text": "San Lorenzo" }, { "id": 16, "text": 'San Jos\xE9 de Los Remates' }, { "id": 17, "text": 'Santa Luc\xEDa' }, { "id": 18, "text": "Teustepe" }, { "id": 19, "text": "Diriamba" }, { "id": 20, "text": "Dolores" }, { "id": 21, "text": "El Rosario" }, { "id": 22, "text": "Jinotepe" }, { "id": 23, "text": "La Conquista" }, { "id": 24, "text": "La Paz de Oriente" }, { "id": 25, "text": "San Marcos" }, { "id": 26, "text": "Santa Teresa" }, { "id": 27, "text": "Chichigalpa" }, { "id": 28, "text": "Chinandega" }, { "id": 29, "text": "Cinco Pinos" }, { "id": 30, "text": "Corinto" }, { "id": 31, "text": "El Realejo" }, { "id": 32, "text": "El Viejo" }, { "id": 33, "text": "Posoltega" }, { "id": 34, "text": "San Francisco del Norte" }, { "id": 35, "text": "San Pedro del Norte" }, { "id": 36, "text": 'Santo Tom\xE1s del Norte' }, { "id": 37, "text": "Somotillo" }, { "id": 38, "text": 'Puerto Moraz\xE1n' }, { "id": 39, "text": "Villanueva" }, { "id": 40, "text": "Acoyapa" }, { "id": 41, "text": "Comalapa" }, { "id": 42, "text": "San Francisco de Cuapa" }, { "id": 43, "text": "El Coral" }, { "id": 44, "text": "Juigalpa" }, { "id": 45, "text": "La Libertad" }, { "id": 46, "text": 'San Pedro de L\xF3vago' }, { "id": 47, "text": "Santo Domingo" }, { "id": 48, "text": 'Santo Tom\xE1s' }, { "id": 49, "text": "Villa Sandino" }, { "id": 50, "text": "Condega" }, { "id": 51, "text": 'Estel\xED' }, { "id": 52, "text": "La Trinidad" }, { "id": 53, "text": "Pueblo Nuevo" }, { "id": 54, "text": "San Juan de Limay" }, { "id": 55, "text": 'San Nicol\xE1s' }, { "id": 56, "text": 'Diri\xE1' }, { "id": 57, "text": "Diriomo" }, { "id": 58, "text": "Granada" }, { "id": 59, "text": "Nandaime" }, { "id": 60, "text": 'El Cu\xE1' }, { "id": 61, "text": "Jinotega" }, { "id": 62, "text": "La Concordia" }, { "id": 63, "text": 'San Jos\xE9 de Bocay' }, { "id": 64, "text": "San Rafael del Norte" }, { "id": 65, "text": 'San Sebasti\xE1n de Yal\xED' }, { "id": 66, "text": 'Santa Mar\xEDa de Pantasma' }, { "id": 67, "text": 'Wiwil\xED' }, { "id": 68, "text": "Acuapa" }, { "id": 69, "text": "El Jicaral" }, { "id": 70, "text": "El Sauce" }, { "id": 71, "text": "La Paz Centro" }, { "id": 72, "text": "Larreynaga" }, { "id": 73, "text": 'Le\xF3n' }, { "id": 74, "text": "Nagarote" }, { "id": 75, "text": "Quezalguaque" }, { "id": 76, "text": 'Santa Rosa del Pe\xF1\xF3n' }, { "id": 77, "text": "Telica" }, { "id": 78, "text": "Las Sabanas" }, { "id": 79, "text": 'Palacag\xFCina' }, { "id": 80, "text": 'San Jos\xE9 de Cusmapa' }, { "id": 81, "text": 'San Juan de R\xEDo Coco' }, { "id": 82, "text": "San Lucas" }, { "id": 83, "text": "Somoto" }, { "id": 84, "text": "Telpaneca" }, { "id": 85, "text": "Totogalpa" }, { "id": 86, "text": 'Yalag\xFCina' }, { "id": 87, "text": "Ciudad Sandino" }, { "id": 88, "text": "El Crucero" }, { "id": 89, "text": "Distrito I" }, { "id": 90, "text": "Distrito II" }, { "id": 91, "text": "Distrito III" }, { "id": 92, "text": "Distrito VI" }, { "id": 93, "text": "Distrito V" }, { "id": 94, "text": "Distrito VI" }, { "id": 95, "text": "Distrito VII" }, { "id": 96, "text": "Mateare" }, { "id": 97, "text": "San Francisco Libre" }, { "id": 98, "text": "San Rafael del Sur" }, { "id": 99, "text": "Ticuantepe" }, { "id": 100, "text": "Tipitapa" }, { "id": 101, "text": "Villa El Carmen" }, { "id": 102, "text": "Catarina" }, { "id": 103, "text": 'La Concepci\xF3n' }, { "id": 104, "text": "Masatepe" }, { "id": 105, "text": "Masaya" }, { "id": 106, "text": "Nandasmo" }, { "id": 107, "text": 'Nindir\xED' }, { "id": 108, "text": "Niquinohomo" }, { "id": 109, "text": "San Juan de Oriente" }, { "id": 110, "text": "Tisma" }, { "id": 111, "text": 'Ciudad Dar\xEDo' }, { "id": 112, "text": "El Tuma - La Dalia" }, { "id": 113, "text": "Esquipulas" }, { "id": 114, "text": "Matagalpa" }, { "id": 115, "text": 'Matigu\xE1s' }, { "id": 116, "text": "Muy Muy" }, { "id": 117, "text": "Rancho Grande" }, { "id": 118, "text": 'R\xEDo Blanco' }, { "id": 119, "text": "San Dionisio" }, { "id": 120, "text": "San Isidro" }, { "id": 121, "text": 'San Ram\xF3n' }, { "id": 122, "text": 'S\xE9baco' }, { "id": 123, "text": "Terrabona" }, { "id": 124, "text": "Ciudad Antigua" }, { "id": 125, "text": "Dipilto" }, { "id": 126, "text": 'El J\xEDcaro' }, { "id": 127, "text": 'G\xFCig\xFCil\xED' }, { "id": 128, "text": "Jalapa" }, { "id": 129, "text": "Macuelizo" }, { "id": 130, "text": "Mozonte" }, { "id": 131, "text": "Murra" }, { "id": 132, "text": "Ocotal" }, { "id": 133, "text": 'Quilal\xED' }, { "id": 134, "text": "San Fernando" }, { "id": 135, "text": 'Santa Mar\xEDa' }, { "id": 136, "text": "El Almendro" }, { "id": 137, "text": "El Castillo" }, { "id": 138, "text": "Morrito" }, { "id": 139, "text": "San Carlos" }, { "id": 140, "text": "San Juan del Norte" }, { "id": 141, "text": "San Miguelito" }, { "id": 142, "text": "Altagracia" }, { "id": 143, "text": 'Bel\xE9n' }, { "id": 144, "text": "Buenos Aires" }, { "id": 145, "text": 'C\xE1rdenas' }, { "id": 146, "text": "Moyogalpa" }, { "id": 147, "text": 'Potos\xED' }, { "id": 148, "text": "Rivas" }, { "id": 149, "text": "San Jorge" }, { "id": 150, "text": "San Juan del Sur" }, { "id": 151, "text": "Tola" }, { "id": 152, "text": "Bocana de Paiwas" }, { "id": 153, "text": "Bonanza" }, { "id": 154, "text": "Mulukuku" }, { "id": 155, "text": "Prinzapolka" }, { "id": 156, "text": "Rosita" }, { "id": 157, "text": "Siuna" }, { "id": 158, "text": "El Coral" }, { "id": 159, "text": "El Rama" }, { "id": 160, "text": "Muelle de los Bueyes" }, { "id": 161, "text": "Nueva Guinea" }]
+                departamento_id: [{ "id": 1, "text": "RACN" }, { "id": 2, "text": "RACS" }, { "id": 3, "text": "Boaco" }, { "id": 4, "text": "Carazo" }, { "id": 5, "text": "Chinandega" }, { "id": 6, "text": "Chontales" }, { "id": 7, "text": 'Estel\xED' }, { "id": 8, "text": "Granada" }, { "id": 9, "text": "Jinotega" }, { "id": 10, "text": 'Le\xF3n' }, { "id": 11, "text": "Madriz" }, { "id": 12, "text": "Managua" }, { "id": 13, "text": "Masaya" }, { "id": 14, "text": "Matagalpa" }, { "id": 15, "text": "Nueva Segovia" }, { "id": 16, "text": 'R\xEDo San Juan' }, { "id": 17, "text": "Rivas" }, { "id": 18, "text": "Triangulo Minero" }, { "id": 19, "text": "Zelaya Central" }]
             },
             dateColumns: ["created_at"],
-            dateFormat: "DD-MM-YYYY hh:mm a",
+            dateFormat: "DD-MM-YYYY <hh:m></hh:m>m a",
             sortable: ['tipo', 'departamento_id', 'muni_id', 'created_at'],
             filterable: ['tipo', 'departamento_id', 'muni_id', 'created_at'],
             texts: {
@@ -23962,6 +23962,13 @@ var app = new Vue({
             compileTemplates: true
         }
     },
+    ready: function ready() {
+        var vm = this;
+        $(document).ready(function () {
+            vm.ready = true;
+        });
+    },
+
     methods: {
         getName: function getName(item, idx) {
             if (item == 'departamento') {
@@ -24044,6 +24051,7 @@ var app = new Vue({
         }
     }
 });
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
 /* 42 */
@@ -25353,7 +25361,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
     }
 });
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
 /* 70 */
@@ -25679,7 +25687,7 @@ window._ = __webpack_require__(96);
  * code may be modified to fit the specific needs of your application.
  */
 
-window.$ = window.jQuery = __webpack_require__(3);
+window.$ = window.jQuery = __webpack_require__(2);
 
 __webpack_require__(75);
 
@@ -28222,7 +28230,7 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 76 */
@@ -48900,7 +48908,7 @@ function endsInSeparator(str) {
 	return str.length > 1 && (last === '/' || (isWin && last === '\\'));
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 109 */
@@ -51982,7 +51990,7 @@ module.exports = function () {
     });
   });
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 158 */
@@ -52264,7 +52272,7 @@ module.exports = function (data) {
 
   throw "vue-tables: No supported ajax library was found. (jQuery, axios or vue-resource)";
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 172 */
