@@ -85,7 +85,9 @@
                 </div>
                 <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
                     
-                    <tabla :data-in='{{json_encode($data)}}' :reload-uri='true' :alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}"></tabla>
+                    <tabla :data-in='{{json_encode($data)}}' :reload-uri='true' alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}">
+                        <v-client-table :options="tableOptions" :columns="['incidencia','tipo','departamento_id','muni_id','descripcion','created_at']" :data="{{json_encode($data)}}"></v-client-table>
+                    </tabla>
                     
                 </div>
             </div>

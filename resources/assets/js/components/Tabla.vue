@@ -20,13 +20,14 @@
                 <tr v-for="row in data">
                     <td>{{row.incidencia}}</td>
                     <td>{{row.tipo}}</td>
-                    <td>{{getName('departamento',row.departamento_id)}}</td>
-                    <td>{{getName('municipio',row.muni_id)}}</td>
+                    <td>{{getNameTable('departamento',row.departamento_id)}}</td>
+                    <td>{{getNameTable('municipio',row.muni_id)}}</td>
                     <td>{{row.descripcion}}</td>
                     <td>{{timelocal(row.created_at)}}</td>
                 </tr>
             </tbody>
         </table>
+        <slot></slot>
     </div>
 </template>
 
@@ -69,7 +70,7 @@
             }
         },
         methods:{
-            getName(item,idx){
+            getNameTable(item,idx){
                 if (item == 'departamento'){
                     for (let depa of Laravel.dptos){
                         if (depa.id == idx){
