@@ -2,8 +2,21 @@
 
 @section('content')
 <div class="container-fluid">
+    <?php
+        use incJS\Incidencia;
+        $data=NULL;
+        if (Auth::user()->alcance=="Departamental")
+        {
+            $data= incJS\Incidencia::where('departamento_id',Auth::user()['departamento_id'])->get();
+        }
+        else
+        {
+            $data= incJS\Incidencia::where('departamento_id',Auth::user()['departamento_id'])->get();
+        }
+    ?>
+
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-5 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @if(Auth::user()->role=="Digitador")
@@ -59,17 +72,21 @@
                                 <button class="btn btn-success" type="submit">Enviar</button>
                             </div>
                         </form>
+                    @elseif(Auth::user()->role=="Monitor" || Auth::user()->role=='Mon/Dig' || Auth::user()->role=="SU")
+                        <mapa></mapa>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-7 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Incidencias Reportadas
                 </div>
                 <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
-                    <tabla></tabla>
+                    
+                    <tabla :data-in='{{json_encode($data)}}' :reload-uri='true' :alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}"></tabla>
+                    
                 </div>
             </div>
         </div>

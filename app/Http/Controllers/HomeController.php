@@ -1,5 +1,4 @@
 <?php
-
 namespace incJS\Http\Controllers;
 
 use incJS\Incidencia;
@@ -38,6 +37,20 @@ class HomeController extends Controller
         $inc->user_id=$request->user_id;
         $inc->tipo=$request->tipo;
         $inc->save();
-        return view('home'); 
+        return redirect()->route('home');
+    }
+
+    public function getData($id){
+        // dd($request);
+        if ($id!=0)
+        {
+            $resultado = Incidencia::where("departamento_id",$id)->get()->toArray();
+            return $resultado;
+        }
+        else
+        {
+            $resultado = Incidencia::all()->toArray();   
+            return $resultado;
+        }
     }
  }

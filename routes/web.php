@@ -17,5 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-Route::post('/home','Homecontroller@saveInc');
+Route::get('/home', 'HomeController@index')->name("home");
+Route::post('/home','HomeController@saveInc');
+Route::get('/getData/{id}',['uses'=>"HomeController@getData"])->name('dataUri');

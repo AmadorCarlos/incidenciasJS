@@ -22,7 +22,13 @@
     export default {
         mounted() {
             console.log('Component mounted.');
-            $('#mainForm').parsley();
+        },
+        ready(){
+            while(typeof(parsley) != "object"){
+                setTimeout(function(){
+                    $('#mainForm').parsley();
+                },200);
+            }
         },
         props:{
             selectedDpto:{
