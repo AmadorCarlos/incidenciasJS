@@ -12533,7 +12533,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         timelocal: function timelocal(fecha) {
-            return moment.utc(fecha, 'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY hh:mm:ss a");
+            return moment.utc(fecha, 'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY | h:mm:ss a");
         },
         reloadData: function reloadData() {
             var vm = this;
@@ -12593,18 +12593,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					zoom: 9,
 					mapTypeControl: false,
 					streetViewControl: false
-
 				});
 				console.log(vm.mapa.getBounds());
 			} else {
 				setTimeout(function () {
 					vm.initMap();
-					vm.setPoligon();
+					vm.setPoligon(11, 0, '#ff0000');
+					vm.setPoligon(11, 1, "e85500");
+					vm.setPoligon(11, 2, "e85500");
+					vm.setPoligon(11, 9, "e85500");
+					vm.setPoligon(11, 10, "e85500");
+					vm.setPoligon(11, 11, "e85500");
+					vm.setPoligon(11, 12, "e85500");
+					vm.setPoligon(11, 13, "e85500");
+					vm.setPoligon(11, 14, "e85500");
 				}, 200);
 			}
 		},
-		getPolygon: function getPolygon() {
-			var pase1 = Laravel.dptos[11].municipios[2].polygon.split(' ');
+		getPolygon: function getPolygon(departamento_idx, muni_idx) {
+			var pase1 = Laravel.dptos[departamento_idx].municipios[muni_idx].polygon.split(' ');
 			var pase2 = [];
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
@@ -12637,17 +12644,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			return pase2;
 		},
-		setPoligon: function setPoligon() {
+		setPoligon: function setPoligon(departamento_idx, muni_idx, color) {
 			var vm = this;
-			var Managua = new google.maps.Polygon({
-				paths: vm.getPolygon(),
-				strokeColor: '#FF0000',
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: '#FF0000',
-				fillOpacity: 0.35
+			var poligono = new google.maps.Polygon({
+				paths: vm.getPolygon(departamento_idx, muni_idx),
+				strokeColor: '#fafafa',
+				strokeOpacity: 0.9,
+				strokeWeight: 1,
+				fillColor: color,
+				fillOpacity: 0.5
 			});
-			Managua.setMap(vm.mapa);
+			poligono.setMap(vm.mapa);
 		}
 	}
 });

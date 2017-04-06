@@ -88,7 +88,7 @@
                 }
             },
             timelocal(fecha){
-                return moment.utc(fecha,'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY hh:mm:ss a");
+                return moment.utc(fecha,'YYYY-MM-DD hh:mm:ss a').local().format("DD-MM-YYYY | h:mm:ss a");
             },
             reloadData(){
                 let vm=this;

@@ -39,18 +39,26 @@
 					    zoom: 9,
 					    mapTypeControl:false,
 					    streetViewControl:false
-
 				  	});
 				  	console.log(vm.mapa.getBounds());
 				}else{
 					setTimeout(function(){
 						vm.initMap();
-						vm.setPoligon();
+						vm.setPoligon(11,0,'#ff0000');
+						vm.setPoligon(11,1,"e85500");
+						vm.setPoligon(11,2,"e85500");
+						vm.setPoligon(11,9,"e85500");
+						vm.setPoligon(11,10,"e85500");
+						vm.setPoligon(11,11,"e85500");
+						vm.setPoligon(11,12,"e85500");
+						vm.setPoligon(11,13,"e85500");
+						vm.setPoligon(11,14,"e85500");
+
 					},200);
 				}
     		},
-    		getPolygon(){
-    			let pase1=Laravel.dptos[11].municipios[2].polygon.split(' ')
+    		getPolygon(departamento_idx,muni_idx){
+    			let pase1=Laravel.dptos[departamento_idx].municipios[muni_idx].polygon.split(' ')
     			let pase2=[];
     			for (let x of pase1)
     				{
@@ -63,17 +71,17 @@
     				}
     			return pase2;
     		},
-    		setPoligon(){
+    		setPoligon(departamento_idx,muni_idx,color){
     			let vm = this;
-    			let Managua = new google.maps.Polygon({
-					    paths: vm.getPolygon(),
-					    strokeColor: '#FF0000',
-					    strokeOpacity: 0.8,
-					    strokeWeight: 2,
-					    fillColor: '#FF0000',
-					    fillOpacity: 0.35
+    			let poligono = new google.maps.Polygon({
+					    paths: vm.getPolygon(departamento_idx,muni_idx),
+					    strokeColor: '#fafafa',
+					    strokeOpacity: 0.9,
+					    strokeWeight: 1,
+					    fillColor: color,
+					    fillOpacity: 0.5
 					});
-				Managua.setMap(vm.mapa);
+				poligono.setMap(vm.mapa);
     		}
     	}
 	}
