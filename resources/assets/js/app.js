@@ -30,7 +30,33 @@ const app = new Vue({
     el: '#app',
     data:{
         ready:false,
-        data:[]
+        data:[],
+        options:{
+            texts:{
+                count:'Mostrando {from} al {to} de {count} Registros|{count} Registros|Un Registro',
+                filter:'Búsqueda: ',
+                filterPlaceholder:'filtro',
+                limit:'Registros:',
+                noResults:'No hay resultados',
+                page:'Página:', // for dropdown pagination 
+                filterBy: '{column}', // Placeholder for search fields when filtering by column
+                loading:'Cargando...', // First request to server
+                defaultOption:'Selecciona {column}' // default option for list filters
+            },
+            // dateColumns:["fecha"],
+            // dateFormat:"DD-MM-YYYY",
+            perPage: 5,
+            perPageValues: [5, 25, 50, 100],
+            filterByColumn: true,
+            datepickerOptions: {
+                autoUpdateInput:true,
+                showDropdowns: true,
+                locale:{cancelLabel:"Limpiar",applyLabel:"Buscar"},
+                multidate:false
+            },
+            sortable: ['tipo','departamento','municipio','fecha'],
+            filterable: ['tipo','departamento','municipio','fecha']  
+        }
     },
     mounted(){
         let vm = this;

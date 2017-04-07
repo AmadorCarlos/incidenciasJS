@@ -16,7 +16,8 @@ class IncidenciaTransformer extends TransformerAbstract
             'departamento'         => $data->incidencia_departamento,
             'municipio'            => $data->municipio->nombre,
             'descripcion'          => $data->descripcion,
-            'fecha'                => $data->created_at->format('Y-m-d H:i:s'),
+            'hora'                 => $data->created_at->setTimezone('America/Managua')->format("h:i a"),
+            'fecha'                => $data->created_at->setTimezone('America/Managua')->format('d-m-Y'),
             'tipo'                 => $data->tipo,
         ];
     }

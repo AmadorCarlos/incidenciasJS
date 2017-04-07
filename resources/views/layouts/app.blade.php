@@ -13,9 +13,35 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-    
+    <style type="text/css">
+        .VueTables__filter-placeholder {
+              color: #fff;
+              background-color: #2ab27b;
+              border-color: #259d6d;
+               display: inline-block;
+              margin-bottom: 0;
+              font-weight: normal;
+              text-align: center;
+              vertical-align: middle;
+              -ms-touch-action: manipulation;
+                  touch-action: manipulation;
+              cursor: pointer;
+              background-image: none;
+              border: 1px solid transparent;
+              white-space: nowrap;
+              padding: 6px 12px;
+              font-size: 14px;
+              line-height: 1.6;
+              border-radius: 4px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+        }
+    </style>
     <!-- Scripts -->
     <script>
+        var Mapa=null;
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
             'dptos' => incJS\Departamento::with('municipios')->get(),

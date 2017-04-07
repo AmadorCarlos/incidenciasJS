@@ -23938,7 +23938,33 @@ var app = new Vue({
     el: '#app',
     data: {
         ready: false,
-        data: []
+        data: [],
+        options: {
+            texts: {
+                count: 'Mostrando {from} al {to} de {count} Registros|{count} Registros|Un Registro',
+                filter: 'Búsqueda: ',
+                filterPlaceholder: 'filtro',
+                limit: 'Registros:',
+                noResults: 'No hay resultados',
+                page: 'Página:', // for dropdown pagination 
+                filterBy: '{column}', // Placeholder for search fields when filtering by column
+                loading: 'Cargando...', // First request to server
+                defaultOption: 'Selecciona {column}' // default option for list filters
+            },
+            // dateColumns:["fecha"],
+            // dateFormat:"DD-MM-YYYY",
+            perPage: 5,
+            perPageValues: [5, 25, 50, 100],
+            filterByColumn: true,
+            datepickerOptions: {
+                autoUpdateInput: true,
+                showDropdowns: true,
+                locale: { cancelLabel: "Limpiar", applyLabel: "Buscar" },
+                multidate: false
+            },
+            sortable: ['tipo', 'departamento', 'municipio', 'fecha'],
+            filterable: ['tipo', 'departamento', 'municipio', 'fecha']
+        }
     },
     mounted: function mounted() {
         var vm = this;
@@ -25388,8 +25414,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			apiKey: "AIzaSyBDzalkc2GCsKQWOx9xhMCwvxYPiTtjO7c",
-			apiKey2: "AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA",
-			mapa: null
+			apiKey2: "AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA"
+			// mapa:null
 		};
 	},
 
@@ -25406,25 +25432,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		initMap: function initMap() {
 			var vm = this;
 			if (typeof google != "undefined") {
-				vm.mapa = new google.maps.Map(document.getElementById('mapa'), {
+				Mapa = new google.maps.Map(document.getElementById('mapa'), {
 					center: { lat: 12.1362, lng: -86.2516 },
 					zoom: 9,
 					mapTypeControl: false,
 					streetViewControl: false
 				});
-				console.log(vm.mapa.getBounds());
+				vm.setPoligon(11, 0, '#ff0000');
+				vm.setPoligon(11, 1, "#e85500");
+				vm.setPoligon(11, 2, "#e85500");
+				vm.setPoligon(11, 9, "#e85500");
+				vm.setPoligon(11, 10, "#e85500");
+				vm.setPoligon(11, 11, "#e85500");
+				vm.setPoligon(11, 12, "#e85500");
+				vm.setPoligon(11, 13, "#e85500");
+				vm.setPoligon(11, 14, "#e85500");
 			} else {
 				setTimeout(function () {
 					vm.initMap();
-					vm.setPoligon(11, 0, '#ff0000');
-					vm.setPoligon(11, 1, "e85500");
-					vm.setPoligon(11, 2, "e85500");
-					vm.setPoligon(11, 9, "e85500");
-					vm.setPoligon(11, 10, "e85500");
-					vm.setPoligon(11, 11, "e85500");
-					vm.setPoligon(11, 12, "e85500");
-					vm.setPoligon(11, 13, "e85500");
-					vm.setPoligon(11, 14, "e85500");
 				}, 200);
 			}
 		},
@@ -25472,7 +25497,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				fillColor: color,
 				fillOpacity: 0.5
 			});
-			poligono.setMap(vm.mapa);
+			poligono.setMap(Mapa);
 		}
 	}
 });

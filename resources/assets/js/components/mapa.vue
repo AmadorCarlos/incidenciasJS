@@ -16,8 +16,8 @@
 		data(){
 			return {
 					apiKey:"AIzaSyBDzalkc2GCsKQWOx9xhMCwvxYPiTtjO7c",
-					apiKey2:"AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA",
-					mapa:null
+					apiKey2:"AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA"
+										// mapa:null
 				}
     	},
     	methods:{
@@ -33,27 +33,25 @@
     		initMap(){
     			let vm=this;
 				if(typeof(google)!="undefined"){
- 					vm.mapa = new google.maps.Map(document.getElementById('mapa'),
+ 					Mapa = new google.maps.Map(document.getElementById('mapa'),
 					{
 					    center: {lat: 12.1362, lng: -86.2516},
 					    zoom: 9,
 					    mapTypeControl:false,
 					    streetViewControl:false
 				  	});
-				  	console.log(vm.mapa.getBounds());
+					vm.setPoligon(11,0,'#ff0000');
+					vm.setPoligon(11,1,"#e85500");
+					vm.setPoligon(11,2,"#e85500");
+					vm.setPoligon(11,9,"#e85500");
+					vm.setPoligon(11,10,"#e85500");
+					vm.setPoligon(11,11,"#e85500");
+					vm.setPoligon(11,12,"#e85500");
+					vm.setPoligon(11,13,"#e85500");
+					vm.setPoligon(11,14,"#e85500");
 				}else{
 					setTimeout(function(){
 						vm.initMap();
-						vm.setPoligon(11,0,'#ff0000');
-						vm.setPoligon(11,1,"e85500");
-						vm.setPoligon(11,2,"e85500");
-						vm.setPoligon(11,9,"e85500");
-						vm.setPoligon(11,10,"e85500");
-						vm.setPoligon(11,11,"e85500");
-						vm.setPoligon(11,12,"e85500");
-						vm.setPoligon(11,13,"e85500");
-						vm.setPoligon(11,14,"e85500");
-
 					},200);
 				}
     		},
@@ -81,7 +79,7 @@
 					    fillColor: color,
 					    fillOpacity: 0.5
 					});
-				poligono.setMap(vm.mapa);
+				poligono.setMap(Mapa);
     		}
     	}
 	}

@@ -21,12 +21,9 @@
                 <div class="panel-heading">
                     Incidencias Reportadas
                 </div>
-                <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
-                          
-                    <tabla v-if="ready" :data-in='{{json_encode($data)}}' :reload-uri='true' alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}">
-                        <v-client-table :data="data" :columns="['incidencia','tipo','departamento','municipio','fecha']" ></v-client-table>
+                <div class="panel-body"  style="overflow: auto !important; max-height:80%">
                         
-                    </tabla>
+                        <v-client-table :options="options" v-if="ready" :data="data" :columns="['incidencia','tipo','departamento','municipio','fecha','hora']" ></v-client-table>
                 </div>
             </div>
         </div>
