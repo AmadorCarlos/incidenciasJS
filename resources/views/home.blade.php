@@ -16,7 +16,21 @@
     ?>
 
     <div class="row">
-        <div class="col-md-5 col-sm-12">
+         <div class="col-md-8 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Incidencias Reportadas
+                </div>
+                <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
+                          
+                    <tabla v-if="ready" :data-in='{{json_encode($data)}}' :reload-uri='true' alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}">
+                        <v-client-table :data="data" :columns="['incidencia','tipo','departamento','municipio','fecha']" ></v-client-table>
+                        
+                    </tabla>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @if(Auth::user()->role=="Digitador")
@@ -41,9 +55,11 @@
                                 <label for="incidencia_name">Incidencia</label>
                                 <input required id="incidencia_name" class="form-control" name="incidencia" placeholder="Nombre la Incidencia">
                             </div>
-                            
-                            <dptos-munis-digi :selected-dpto="{{Auth::user()->departamento_id}}" :dpto-disable="true"></dptos-munis-digi>
-                            
+                                @if(Auth::user()->alcance=='Departamental')
+                                    <dptos-munis-digi :selected-dpto="{{Auth::user()->departamento_id}}" :dpto-disable="true"></dptos-munis-digi>
+                                @else
+                                    <dptos-munis-digi :dpto-disable="false"></dptos-munis-digi>
+                                @endif
                             <div class="form-group">
                                 <label for="incidencia_descripcion">Descripción</label>
                                 <textarea required rows="5" id="incidencia_descripcion" class="form-control" name="descripcion" placeholder="Detalle la incidencia">
@@ -78,18 +94,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7 col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Incidencias Reportadas
-                </div>
-                <div class="panel-body"  style="overflow: auto !important; max-height: 500px">
-                    
-                    <tabla v-if="ready" :data-in='{{json_encode($data)}}' :reload-uri='true' alcance='{{Auth::user()->alcance}}' :departamento_id="{{Auth::user()->departamento_id}}"></tabla>
-                    
-                </div>
-            </div>
-        </div>
+       
     </div>
 </div>
 @endsection

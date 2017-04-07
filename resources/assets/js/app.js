@@ -10,8 +10,8 @@ require('./bootstrap');
 
 var VueResource = require('vue-resource');
 Vue.use(VueResource);
-// import {ServerTable, ClientTable, Event} from 'vue-tables-2';
-// Vue.use(ClientTable, {}, false);
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
+Vue.use(ClientTable, {}, false);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,31 +29,31 @@ Vue.component('mapa',require('./components/mapa.vue'));
 const app = new Vue({
     el: '#app',
     data:{
-    	ready:false,
+        ready:false,
+        data:[]
     },
     mounted(){
-    	let vm = this;
-    	$(document).ready(function(){
-    		vm.ready=true;
-    	});
+        let vm = this;
+        if(Laravel.dpto_id!=null){
+            setInterval(function(){
+                vm.reloadData();
+            },2000);
+        }
+        
+        $(document).ready(function(){
+            vm.ready=true;
+        });
     },
     methods:{
-    	getName(item,idx){
-                if (item == 'departamento'){
-                    for (let depa of Laravel.dptos){
-                        if (depa.id == idx){
-                            return depa.nombre;
-                        }
-                    }
-                }else{
-                    for (let depa of Laravel.dptos){
-                        for (let muni of depa.municipios){
-                            if (muni.id == idx){
-                                return muni.nombre;
-                            }
-                        }
-                    }
-                }
-            }
+        reloadData(){
+            let vm=this;
+            vm.$http.get('/getData/'+Laravel.dpto_id,{csrfToken:Laravel.csrfToken}).then((response)=>{
+                console.log(response);
+                vm.data=response.data;
+            },(response)=>{
+                console.log(response);
+            });
+        }
     }
 });
+

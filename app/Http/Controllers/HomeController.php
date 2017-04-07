@@ -3,6 +3,7 @@ namespace incJS\Http\Controllers;
 
 use incJS\Incidencia;
 use Illuminate\Http\Request;
+use incJS\Transformers\IncidenciaTransformer;
 
 class HomeController extends Controller
 {
@@ -44,13 +45,35 @@ class HomeController extends Controller
         // dd($request);
         if ($id!=0)
         {
-            $resultado = Incidencia::where("departamento_id",$id)->get()->toArray();
-            return $resultado;
+            $resultado = Incidencia::with(['municipio'=>function ($query){
+                $query->with(['departamento'=>function($query){
+                    $query->addSelect("nombre","id");
+                }])
+                    ->addSelect(['id','departamento_id','nombre']);
+            }])->where("departamento_id",$id)->select()->get();
+            
+            $jsonTrans=  fractal()
+            ->collection($resultado)
+            ->transformWith(new IncidenciaTransformer)
+            // ->serializeWith(new \Spatie\Fractal\ArraySerializer())
+            ->toArray();
+            return $jsonTrans['data'];
         }
         else
         {
-            $resultado = Incidencia::all()->toArray();   
-            return $resultado;
+            $resultado = Incidencia::with(['municipio'=>function ($query){
+                $query->with(['departamento'=>function($query){
+                    $query->addSelect("nombre","id");
+                }])
+                    ->addSelect(['id','departamento_id','nombre']);
+            }])->get();
+            
+            $jsonTrans=  fractal()
+            ->collection($resultado)
+            ->transformWith(new IncidenciaTransformer)
+            // ->serializeWith(new \Spatie\Fractal\ArraySerializer())
+            ->toArray();
+            return $jsonTrans['data'];
         }
     }
  }

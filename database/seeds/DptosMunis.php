@@ -61,26 +61,11 @@ class DptosMunis extends Seeder
         echo "\n Listo \nProcesando Almacenamiento de Usuarios de Control \n";
         $usuarios=
         [
-        	[
-        		"nombre"=>'Alex',
-        		'email'=>'Alex@incidenciasjs.com',
-        		'password'=>bcrypt('3.1415Pi!'),
-        		'role'=>'SU',
-        		'alcance'=>"Nacional",
-        	],
-            [
-                "nombre"=>'Digitación 01',
-                'email'=>"Digitacion@incidenciasjs.com",
-                'password'=>bcrypt('asdfasdf'),
-                'departamento_id'=>12,
-                'role'=>'Digitador',
-                'alcance'=>"Departamental",
-            ],
             [
                 "nombre"=>'Digitación Nacional',
                 'email'=>"DigitacionNacional@incidenciasjs.com",
                 'password'=>bcrypt('apolo2017$'),
-                'departamento_id'=>12,
+                'departamento_id'=>0,
                 'role'=>'Digitador',
                 'alcance'=>"Nacional",
             ],
@@ -91,14 +76,6 @@ class DptosMunis extends Seeder
                 'departamento_id'=>0,
                 'role'=>'Monitor',
                 'alcance'=>"Nacional",
-            ],
-            [
-                "nombre"=>'Monitoreo 01',
-                'email'=>"Monitoreo@incidenciasjs.com",
-                'password'=>bcrypt('asdfasdf'),
-                'departamento_id'=>12,
-                'role'=>'Monitor',
-                'alcance'=>"Departamental",
             ]
         ];
 

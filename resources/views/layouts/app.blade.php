@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Incidencias JS</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -18,7 +18,8 @@
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
-            'dptos' => incJS\Departamento::with('municipios')->get()
+            'dptos' => incJS\Departamento::with('municipios')->get(),
+            'dpto_id' => Auth::check() ? Auth::user()->departamento_id : NULL
         ]) !!};
     </script>
 
@@ -93,7 +94,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script type="text/javascript" src='/js/parsley.min.js'></script>
     <script type="text/javascript" src='/js/parsley-es.js'></script>
 </body>

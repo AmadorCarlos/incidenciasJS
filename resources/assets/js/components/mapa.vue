@@ -77,7 +77,7 @@
 					    paths: vm.getPolygon(departamento_idx,muni_idx),
 					    strokeColor: '#fafafa',
 					    strokeOpacity: 0.9,
-					    strokeWeight: 1,
+					    strokeWeight: 3,
 					    fillColor: color,
 					    fillOpacity: 0.5
 					});
