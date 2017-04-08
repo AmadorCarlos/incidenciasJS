@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Departamento extends Model
 {
 	protected $fillable = [
-        'nombre'
+        'nombre','centro','zoom'
     ];
 
     public function municipios()

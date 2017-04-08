@@ -22,7 +22,6 @@
                     Incidencias Reportadas
                 </div>
                 <div class="panel-body"  style="overflow: auto !important; max-height:80%">
-                        
                         <v-client-table :options="options" v-if="ready" :data="data" :columns="['incidencia','tipo','departamento','municipio','fecha','hora']" ></v-client-table>
                 </div>
             </div>
@@ -86,7 +85,7 @@
                             </div>
                         </form>
                     @elseif(Auth::user()->role=="Monitor" || Auth::user()->role=='Mon/Dig' || Auth::user()->role=="SU")
-                        <mapa></mapa>
+                        <mapa alcance='{{Auth::user()->alcance}}' :departamento-id='{{Auth::user()->departamento_id}}' :data-in='data'></mapa>
                     @endif
                 </div>
             </div>

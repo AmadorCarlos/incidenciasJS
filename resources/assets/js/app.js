@@ -73,8 +73,8 @@ const app = new Vue({
     methods:{
         reloadData(){
             let vm=this;
-            vm.$http.get('/getData/'+Laravel.dpto_id,{csrfToken:Laravel.csrfToken}).then((response)=>{
-                console.log(response);
+            vm.$http.get('/getDptos/'+Laravel.dpto_id,{csrfToken:Laravel.csrfToken}).then((response)=>{
+                // console.log(response);
                 vm.data=response.data;
             },(response)=>{
                 console.log(response);

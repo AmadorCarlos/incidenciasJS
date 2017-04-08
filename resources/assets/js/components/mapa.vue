@@ -7,24 +7,134 @@
 <script>
 	export default{
 		mounted(){
+			let vm = this;
 			console.log('mapa cargado');
 			this.setScriptTag();
-			this.initMap();
+			$(document).ready(function(){vm.initMap();});
+			setInterval(function(){
+				vm.setPoligonos();
+				vm.crearFigura();
+			},2000)
 		},
-		ready(){
+		props:{
+			alcance:{
+				type:String,
+				default:"",
+				required:true
+			},
+			departamentoId:{
+				type:Number,
+				default:0,
+				required:false
+			},
+			dataIn:{
+				type:Array,
+				default(){return []},
+				required:true
+			}
 		},
 		data(){
 			return {
 					apiKey:"AIzaSyBDzalkc2GCsKQWOx9xhMCwvxYPiTtjO7c",
-					apiKey2:"AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA"
-										// mapa:null
+					apiKey2:"AIzaSyAVMXe1PeoJmSb7IQft7sQ2uS_XwJIjRPA",
+					nicaraguaCenter:{lat:12.671638,lng:-85.167863,zoom:7},
+					poligonos:{}
 				}
     	},
+
+    	computed:{
+    		centro_computed(){
+    			let vm = this;
+    			let centroResultado={lat:0,lng:0};
+    			if(vm.alcance=="Nacional"){
+    				centroResultado.lat=vm.nicaraguaCenter.lat;
+    				centroResultado.lng=vm.nicaraguaCenter.lng;
+    				return centroResultado;
+    			}else{
+    				let dpto = Laravel.dptos.filter(function(dpto){
+    					if (dpto.id == vm.departamentoId){
+    						return dpto;
+    					}
+    				});
+    				console.log(dpto);
+    				let centro= dpto[0].centro.split(','); //lat->0  lng->1
+    				centroResultado.lat=Number(centro[0]);
+    				centroResultado.lng=Number(centro[1]);
+    				return centroResultado;
+    			}
+    		},
+    		zoom_computed(){
+    			let vm = this;
+    			let zoomResultado=0;
+    			if(vm.alcance=="Nacional"){
+    				zoomResultado=vm.nicaraguaCenter.zoom;
+    				return zoomResultado;
+    			}else{
+    				let dpto = Laravel.dptos.filter(function(dpto){
+    					if (dpto.id == vm.departamentoId){
+    						return dpto;
+    					}
+    				});
+    				zoomResultado=dpto[0].zoom;
+    				return zoomResultado;
+    			}
+    		}
+    	},
     	methods:{
+    		setPoligonos(){
+    			let vm = this;
+    			let poligonosTemp={};
+    			let tipoI = {Mayor:"M",Menor:"m",Sin:"s"};
+    			for (let x of vm.dataIn){
+    				if(poligonosTemp[x.municipio]==undefined){
+    					poligonosTemp[x.municipio]={};
+    					poligonosTemp[x.municipio][tipoI[x.tipo]]=1;
+    					poligonosTemp[x.municipio]["municipio_id"]=x.municipio_id;
+    					poligonosTemp[x.municipio]["nombre"]=x.municipio;
+
+    				}else{
+    					if(poligonosTemp[x.municipio][tipoI[x.tipo]]==undefined){
+    						poligonosTemp[x.municipio][tipoI[x.tipo]]=1;
+    					}else{
+	    					poligonosTemp[x.municipio][tipoI[x.tipo]]+=1;
+    					}
+    				}
+    			}
+    			console.log("watcher exec");
+    			vm.poligonos={};
+    			vm.poligonos=poligonosTemp;
+    			
+    		},
+    		crearFigura(){
+    			let vm = this;
+    			vm.destroyShapes();
+    			let listaColor={};
+    			if (vm.poligonos!=null){
+	    			for (let x in vm.poligonos){
+	    				console.log(vm.poligonos[x].municipio_id);
+	    				vm.setPoligonShape(vm.poligonos[x].municipio_id);
+	    				if(vm.poligonos[x].M!=undefined){
+	    					listaColor[vm.poligonos[x].nombre]='Red'
+	    				}else if(vm.poligonos[x].m!=undefined){
+	    					listaColor[vm.poligonos[x].nombre]='orange'
+	    				}else{
+	    					listaColor[vm.poligonos[x].nombre]='yellow'
+	    				}
+	    			}
+	    			vm.setPoligonsColor(listaColor);
+    			}
+    			
+
+    		},
+    		destroyShapes(){
+    			Mapa.data.forEach(function(feature) {
+			        Mapa.data.remove(feature);
+				});
+    		},
     		setScriptTag(){
     			let vm = this;
 				let scriptMap = document.createElement('script');
-				scriptMap.setAttribute('src','https://maps.googleapis.com/maps/api/js?key='+vm.apiKey);
+				scriptMap.setAttribute('src','https://maps.googleapis.com/maps/api/js?language=es&key='+vm.apiKey);
 				scriptMap.setAttribute("async","");
 				scriptMap.setAttribute("defer","");
 				// scriptMap.setAttribute('id','googleApiScript')
@@ -35,51 +145,40 @@
 				if(typeof(google)!="undefined"){
  					Mapa = new google.maps.Map(document.getElementById('mapa'),
 					{
-					    center: {lat: 12.1362, lng: -86.2516},
-					    zoom: 9,
+					    center: vm.centro_computed,
+					    zoom: vm.zoom_computed,
 					    mapTypeControl:false,
 					    streetViewControl:false
 				  	});
-					vm.setPoligon(11,0,'#ff0000');
-					vm.setPoligon(11,1,"#e85500");
-					vm.setPoligon(11,2,"#e85500");
-					vm.setPoligon(11,9,"#e85500");
-					vm.setPoligon(11,10,"#e85500");
-					vm.setPoligon(11,11,"#e85500");
-					vm.setPoligon(11,12,"#e85500");
-					vm.setPoligon(11,13,"#e85500");
-					vm.setPoligon(11,14,"#e85500");
+ 					
 				}else{
 					setTimeout(function(){
 						vm.initMap();
+
 					},200);
 				}
     		},
-    		getPolygon(departamento_idx,muni_idx){
-    			let pase1=Laravel.dptos[departamento_idx].municipios[muni_idx].polygon.split(' ')
-    			let pase2=[];
-    			for (let x of pase1)
-    				{
-    					let latlon=x.split(',');
-    					pase2.push
-    					({
-    						lng:Number(latlon[0]),
-    						lat:Number(latlon[1])
-    					});
+    		setPoligonShape(muni_idx){
+    			let municipio = Laravel.munis.filter(function(muni){
+    				if(muni.id==muni_idx){
+    					return muni;
     				}
-    			return pase2;
+    			});
+    			console.log('setPoligonShape',municipio);
+			  	Mapa.data.loadGeoJson("http://incidencias.app/geojson/"+municipio[0].polygon+".geojson");
     		},
-    		setPoligon(departamento_idx,muni_idx,color){
-    			let vm = this;
-    			let poligono = new google.maps.Polygon({
-					    paths: vm.getPolygon(departamento_idx,muni_idx),
-					    strokeColor: '#fafafa',
-					    strokeOpacity: 0.9,
-					    strokeWeight: 3,
-					    fillColor: color,
-					    fillOpacity: 0.5
-					});
-				poligono.setMap(Mapa);
+    		setPoligonsColor(colorList){
+    			Mapa.data.setStyle(function(feature) {
+					// console.log(feature)
+				    var nombre = feature.getProperty('Name');
+				    
+ 					var color =  colorList[nombre];
+				    return {
+				      fillColor: color,
+				      strokeWeight: 1
+				    };
+				    				    
+				});
     		}
     	}
 	}

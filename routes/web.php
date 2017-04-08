@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name("home");
 Route::post('/home','HomeController@saveInc');
-Route::get('/getData/{id}',['uses'=>"HomeController@getData"])->name('dataUri');
+Route::get('/getDptos/{id}',['uses'=>"HomeController@getDptos"])->name('dataDptos');

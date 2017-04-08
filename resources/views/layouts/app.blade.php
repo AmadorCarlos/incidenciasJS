@@ -45,7 +45,8 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
             'dptos' => incJS\Departamento::with('municipios')->get(),
-            'dpto_id' => Auth::check() ? Auth::user()->departamento_id : NULL
+            'dpto_id' => Auth::check() ? Auth::user()->departamento_id : NULL,
+            'munis' => incJS\Municipio::all()
         ]) !!};
     </script>
 

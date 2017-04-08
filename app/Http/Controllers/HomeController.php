@@ -41,7 +41,7 @@ class HomeController extends Controller
         return redirect()->route('home');
     }
 
-    public function getData($id){
+    public function getDptos($id){
         // dd($request);
         if ($id!=0)
         {
