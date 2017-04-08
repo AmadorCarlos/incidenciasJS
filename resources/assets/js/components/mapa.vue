@@ -118,7 +118,7 @@
 	    				}else if(vm.poligonos[x].m!=undefined){
 	    					listaColor[vm.poligonos[x].nombre]='orange'
 	    				}else{
-	    					listaColor[vm.poligonos[x].nombre]='yellow'
+	    					listaColor[vm.poligonos[x].nombre]='gray'
 	    				}
 	    			}
 	    			vm.setPoligonsColor(listaColor);
