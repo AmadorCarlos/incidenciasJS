@@ -165,7 +165,7 @@
     				}
     			});
     			console.log('setPoligonShape',municipio);
-			  	Mapa.data.loadGeoJson("http://incidencias.app/geojson/"+municipio[0].polygon+".geojson");
+			  	Mapa.data.loadGeoJson("http://"+location.hostname+"/geojson/"+municipio[0].polygon+".geojson");
     		},
     		setPoligonsColor(colorList){
     			Mapa.data.setStyle(function(feature) {
