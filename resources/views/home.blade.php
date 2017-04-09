@@ -22,7 +22,7 @@
                     Incidencias Reportadas
                 </div>
                 <div class="panel-body"  style="overflow: auto !important; max-height:80%">
-                        <v-client-table :options="options" v-if="ready" :data="data" :columns="['incidencia','tipo','departamento','municipio','descripcion',fecha','hora']" ></v-client-table>
+                        <v-client-table :options="options" v-if="ready" :data="data" :columns="['incidencia','tipo','departamento','municipio','descripcion','fecha','hora']" ></v-client-table>
                 </div>
             </div>
         </div>
